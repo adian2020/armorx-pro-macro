@@ -33,6 +33,20 @@
     ]
   },
   "firmware_macro_crc_table_confirmed": true,
+  "trailer_length_encoding": {
+    "record_length": 12,
+    "stored_bytes": "00 0c",
+    "q32s_halfword_immediate": "0x0c00",
+    "preserve_metadata_length_instructions": [
+      "0x1e05e7e",
+      "0x1e0972a",
+      "0x1e09c1a",
+      "0x1e09ca8",
+      "0x1e09d78",
+      "0x1e0b1f0"
+    ],
+    "note": "Do not globally replace 0x0c00 with a new configuration-array byte count."
+  },
   "unresolved": [
     "Available runtime heap and a verified allocation/initialization path.",
     "Complete config-base/interior-pointer relocation, including possible RAM-resident code.",
@@ -688,6 +702,14 @@
       "offset": 62696,
       "bytes": "a0fc440c",
       "asm": "r0 = r10 + 0xc44",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e0f618",
+      "offset": 62712,
+      "bytes": "00fb490c",
+      "asm": "r0 = 0xc49",
       "category": "whole_config_size_or_tail",
       "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
     },

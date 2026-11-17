@@ -48,7 +48,7 @@ def main():
             category, change = 'config_tail_pointer', 'Use relocated_base + 0x1544 or +0x1548.'
         elif 0x01e05900 <= a < 0x01e0e800 and re.search(r'(= 0xdc$|\+ 0xdc$|\+\+= 0xdc)', text):
             category, change = 'macro_stride_candidate', 'Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride.'
-        elif 0x01e05500 <= a < 0x01e17000 and re.search(r'(= 0xc50$|\+ 0xc44$|= 0xc48$)', text):
+        elif 0x01e05500 <= a < 0x01e17000 and re.search(r'(= 0xc50$|\+ 0xc44$|= 0xc4[4-9a-f]$)', text):
             category, change = 'whole_config_size_or_tail', 'Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548.'
         if category:
             candidates.append(dict(insn, category=category, required_change=change))
@@ -95,6 +95,12 @@ def main():
         'unsafe_in_place_window': {'base': '0x3120', 'new_end_exclusive': hex(0x3120 + 5456),
                                   'existing_address_references_inside_growth': ['0x41b8', '0x41bc', '0x4288', '0x45bc']},
         'firmware_macro_crc_table_confirmed': True,
+        'trailer_length_encoding': {
+            'record_length': 12, 'stored_bytes': '00 0c',
+            'q32s_halfword_immediate': '0x0c00',
+            'preserve_metadata_length_instructions': ['0x1e05e7e', '0x1e0972a', '0x1e09c1a', '0x1e09ca8', '0x1e09d78', '0x1e0b1f0'],
+            'note': 'Do not globally replace 0x0c00 with a new configuration-array byte count.'
+        },
         'unresolved': [
             'Available runtime heap and a verified allocation/initialization path.',
             'Complete config-base/interior-pointer relocation, including possible RAM-resident code.',
