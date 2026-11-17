@@ -11,3 +11,4 @@ __pycache__/
 *.exe
 *.dll
 *.o
+armorx-usb-*.json

@@ -12,3 +12,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: Storage core and firmware container tests
         run: make check
+  windows-usb-descriptors:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and run descriptor collector on Windows PowerShell
+        shell: powershell
+        run: |
+          $outputFile = Join-Path $env:RUNNER_TEMP 'armorx-usb-info.json'
+          & .\windows\Collect-ArmorXUsbInfo.ps1 -OutputPath $outputFile
+          $report = Get-Content -LiteralPath $outputFile -Raw | ConvertFrom-Json
+          if ($report.Schema -ne 'armorx-usb-descriptors-v1') { throw 'Unexpected output schema' }
+          if ($report.Mode -ne 'Descriptors only; no device commands sent') { throw 'Unexpected operation mode' }
+          if ($null -eq $report.HidInterfaces) { throw 'Missing HID array' }
+          Write-Host 'Windows descriptor collector compiled and output JSON parsed successfully.'

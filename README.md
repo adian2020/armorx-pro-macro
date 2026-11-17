@@ -13,6 +13,9 @@
 - 验证旧数据迁移、容量边界、CRC、十二槽互不覆盖及保存数据恢复。
 - 补充完整配置对象迁移原型，保留68字节前缀和12字节尾记录；核对尾记录长度字节序，避免误改`0xc00`常数。
 - 使用杰理官方工具链交叉编译为Q32s处理器代码。
+- 完成八份Flash的嵌套校验、固定大小应用替换、反向还原和4 KiB应用代码空间增长的离线打包验证。
+- 核对四个通信缓冲区的256/328/256/256字节容量；扩展宏还需要迁移通信缓冲。
+- 提供[Windows只读USB接口采集脚本](windows/README.zh-CN.md)，用于确定后续实机诊断通道。
 
 ## 构建和测试
 
@@ -38,10 +41,19 @@ python3 tools/inspect_bup.py '01战甲X Pro固件-V41.bup' build/inspection
 
 脚本验证头部和载荷CRC、提取两份UFW，并检查外层重建能否逐字节还原原版。原始包身份和官方地址见[original-identity.json](docs/original-identity.json)。
 
+验证全部嵌套Flash、加密元数据及代码空间增长：
+
+```sh
+python3 -m tools.verify_package '01战甲X Pro固件-V41.bup' --exercise-replacement --exercise-growth 4096 --output build/container-verification.json
+```
+
+测试在内存中完成单字节替换、反向还原和4 KiB增长，不输出这些测试内容为刷机包。原版完整包已逐字节还原，增长后的八份Flash均重新解析通过CRC；配置文件、P11资源和保留区描述保持不变。这些结果不能验证补丁执行或未知尾记录的升级工具语义。详见[打包验证报告](docs/container-verification.json)。
+
 准备好原版解码后的 `app.bin` 和官方工具生成的Q32s反汇编后：
 
 ```sh
 python3 tools/audit_original.py --app /path/to/app.bin --asm /path/to/app-q32s.asm --output build/integration-audit.json
+python3 -m tools.audit_memory /path/to/app.bin --output build/memory-audit.json
 ```
 
 ## 可刷固件仍缺少什么
@@ -49,6 +61,8 @@ python3 tools/audit_original.py --app /path/to/app.bin --asm /path/to/app-q32s.a
 原完整配置对象3152字节，新布局连同相同前后缀需要5456字节。原地扩容会与已有RAM对象冲突；若保留原静态对象再申请新对象，需至少5456字节连续可用堆内存及运行余量。
 
 以下环节尚未闭环验证：新对象分配与初始化、完整地址引用迁移、工厂重置、通信缓冲容量、断电保存和恢复、八份Flash的补丁及重打包、实机录制和回放。
+
+目前已核对原通信缓冲布局并验证打包后端；扩容通信缓冲的运行时接入、完整扩容补丁和实机验证仍未完成。[内存证据与迁移方案](docs/memory-audit.json)记录了这些边界。只有USB和官方升级工具时，先运行Windows采集脚本确认接口；标准设备描述信息本身不含剩余RAM数据。
 
 构建脚本会检查这些条件；条件不满足时拒绝生成标称“扩容成功”的刷机包。当前失败不是升级工具问题，也不应通过跳过检查解决。
 

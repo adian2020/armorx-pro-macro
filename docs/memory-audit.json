@@ -1,0 +1,125 @@
+{
+  "original_application_sha256": "302a700be0a5b351b05c7d42d0bf5e5019f2c0fe2dc524eb390cfd2fae16390b",
+  "classification": "STATIC_EVIDENCE_RUNTIME_ALLOCATION_NOT_VERIFIED",
+  "startup": {
+    "zeroed_ranges": [
+      {
+        "start": "0x18e0",
+        "size": 20448,
+        "end": "0x68c0"
+      },
+      {
+        "start": "0x8720",
+        "size": 13280,
+        "end": "0xbb00"
+      }
+    ],
+    "data_copy": {
+      "source": "0x1e352b0",
+      "destination": "0x840",
+      "size": 2176
+    },
+    "ram_code_copy": {
+      "source": "0x1e35b30",
+      "destination": "0x68c0",
+      "size": 7752,
+      "end": "0x8708"
+    }
+  },
+  "original_configuration": {
+    "start": "0x3120",
+    "size": 3152,
+    "end_exclusive": "0x3d70"
+  },
+  "communication_buffers": [
+    {
+      "descriptor_ram": "0x928",
+      "initializer_rom": "0x1e35398",
+      "initializer_bytes": "48000001703d000000000000",
+      "max_fragment_field": 72,
+      "flags": 0,
+      "capacity": 256,
+      "buffer_ram": "0x3d70",
+      "end_exclusive": "0x3e70",
+      "initial_assembled_length": 0,
+      "can_hold_412_byte_macro_without_framing": false
+    },
+    {
+      "descriptor_ram": "0x934",
+      "initializer_rom": "0x1e353a4",
+      "initializer_bytes": "48004801703e000000000000",
+      "max_fragment_field": 72,
+      "flags": 0,
+      "capacity": 328,
+      "buffer_ram": "0x3e70",
+      "end_exclusive": "0x3fb8",
+      "initial_assembled_length": 0,
+      "can_hold_412_byte_macro_without_framing": false
+    },
+    {
+      "descriptor_ram": "0x940",
+      "initializer_rom": "0x1e353b0",
+      "initializer_bytes": "40000001b83f000000000000",
+      "max_fragment_field": 64,
+      "flags": 0,
+      "capacity": 256,
+      "buffer_ram": "0x3fb8",
+      "end_exclusive": "0x40b8",
+      "initial_assembled_length": 0,
+      "can_hold_412_byte_macro_without_framing": false
+    },
+    {
+      "descriptor_ram": "0x94c",
+      "initializer_rom": "0x1e353bc",
+      "initializer_bytes": "48000001b840000000000000",
+      "max_fragment_field": 72,
+      "flags": 0,
+      "capacity": 256,
+      "buffer_ram": "0x40b8",
+      "end_exclusive": "0x41b8",
+      "initial_assembled_length": 0,
+      "can_hold_412_byte_macro_without_framing": false
+    }
+  ],
+  "reassembly_capacity_check": {
+    "load_address": "0x1e06634",
+    "reject_address": "0x1e0663c",
+    "condition": "new_assembled_length >= capacity",
+    "length_field_bits": 16
+  },
+  "physical_allocator_initialization": {
+    "argument_start": "0x8a68",
+    "argument_end": "0xfb60",
+    "span_bytes": 28920,
+    "call_instruction": "0x1e1573a",
+    "resolved_pc_relative_call": "0x2106ea0",
+    "sdk_reference": "Jieli-Tech/fw-AC63_BT_SDK cpu/bd19/maskrom_stubs.ld pmalloc_init=0x106ea0",
+    "rom_mirror_interpretation": "SDK address + 0x2000000; static correspondence only",
+    "runtime_free_bytes_or_largest_allocation": null,
+    "note": "Zeroed startup range size is not live static allocation size; allocator pages and virtual heap semantics need runtime confirmation."
+  },
+  "relocation_proposal": {
+    "implemented_in_firmware": false,
+    "new_configuration_heap_bytes": 5456,
+    "reusable_legacy_static_bytes_after_successful_migration": 3152,
+    "possible_control_bytes": 64,
+    "possible_communication_buffers": {
+      "count": 4,
+      "capacity_each": 512,
+      "start": "0x3160",
+      "end_exclusive": "0x3960"
+    },
+    "old_storage_reuse_requires": [
+      "Every old configuration base/interior reference relocated before reuse.",
+      "No active communications while descriptors change.",
+      "Configuration migration and initialization complete before publication.",
+      "D8/D9 transmission and reassembly tested with expanded payloads."
+    ]
+  },
+  "unresolved": [
+    "Actual free physical pages and heap under connected/recording load.",
+    "Complete runtime relocation and initialization hook.",
+    "Power-loss-safe extended-format migration and save.",
+    "Windows device diagnostic/recovery transport."
+  ]
+}

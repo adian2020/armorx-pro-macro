@@ -105,9 +105,9 @@ def main():
             'Available runtime heap and a verified allocation/initialization path.',
             'Complete config-base/interior-pointer relocation, including possible RAM-resident code.',
             'Factory reset and all profile/slot iteration semantics.',
-            'A4 reassembly buffer capacity and D8/D9 long-payload interoperability.',
+            'A4 original capacities confirmed as 256/328/256/256 bytes; runtime buffer migration and D8/D9 long-payload interoperability remain unimplemented.',
             'USERIF reserved area ownership, old-data migration, metadata CRC and interrupted-save recovery.',
-            'Hook/branch relocation and helper placement/repacking for all eight flash variants.',
+            'Hook/branch relocation and helper integration; container backend supports verified 4096-byte application growth across all eight Flash variants, but updater tail semantics remain unverified.',
             'On-device recording, playback, restart and cross-profile validation.'
         ],
         'candidates': sorted(candidates, key=lambda x: int(x['address'], 16)),

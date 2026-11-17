@@ -12,7 +12,7 @@ def main():
         raise SystemExit('Firmware not generated. Incomplete integration:\n' +
                          '\n'.join('- ' + name for name in missing))
     # Flags are documentation, not a substitute for implemented patch logic.
-    raise SystemExit('Firmware patch/link/repack backend is not implemented; status flags cannot enable it.')
+    raise SystemExit('Container replacement/growth backend exists, but runtime patch/link integration is not implemented; status flags cannot enable it.')
 
 
 if __name__ == '__main__':
