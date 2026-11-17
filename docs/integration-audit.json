@@ -1,0 +1,736 @@
+{
+  "status": "OFFLINE_CORE_ONLY_NOT_FLASHABLE",
+  "original_sha256": "302a700be0a5b351b05c7d42d0bf5e5019f2c0fe2dc524eb390cfd2fae16390b",
+  "target": "Three profiles, four independent macros each; 67 six-byte records per macro.",
+  "old": {
+    "records": 35,
+    "slot": 220,
+    "profile": 1024,
+    "profiles_image": 3072,
+    "object_prefix": 68,
+    "object_suffix": 12,
+    "object_size": 3152
+  },
+  "prototype": {
+    "records": 67,
+    "slot": 412,
+    "profile": 1792,
+    "profiles_image": 5376,
+    "object_prefix": 68,
+    "object_suffix": 12,
+    "object_size": 5456,
+    "additional_profile_ram": 2304,
+    "heap_allocation_if_legacy_static_object_is_retained": 5456
+  },
+  "unsafe_in_place_window": {
+    "base": "0x3120",
+    "new_end_exclusive": "0x4670",
+    "existing_address_references_inside_growth": [
+      "0x41b8",
+      "0x41bc",
+      "0x4288",
+      "0x45bc"
+    ]
+  },
+  "firmware_macro_crc_table_confirmed": true,
+  "unresolved": [
+    "Available runtime heap and a verified allocation/initialization path.",
+    "Complete config-base/interior-pointer relocation, including possible RAM-resident code.",
+    "Factory reset and all profile/slot iteration semantics.",
+    "A4 reassembly buffer capacity and D8/D9 long-payload interoperability.",
+    "USERIF reserved area ownership, old-data migration, metadata CRC and interrupted-save recovery.",
+    "Hook/branch relocation and helper placement/repacking for all eight flash variants.",
+    "On-device recording, playback, restart and cross-profile validation."
+  ],
+  "candidates": [
+    {
+      "address": "0x1e05954",
+      "offset": 22580,
+      "bytes": "c37d",
+      "asm": "r3 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e05956",
+      "offset": 22582,
+      "bytes": "c47d",
+      "asm": "r4 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e05ad0",
+      "offset": 22960,
+      "bytes": "a0c2",
+      "asm": "r0 = r4 << 0xa",
+      "category": "specific_dataflow_review",
+      "required_change": "Profile parameter selection: index*1024 -> index*1792."
+    },
+    {
+      "address": "0x1e05ad2",
+      "offset": 22962,
+      "bytes": "c8ff20310000",
+      "asm": "r8 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e05bc2",
+      "offset": 23202,
+      "bytes": "80c2",
+      "asm": "r0 = r0 << 0xa",
+      "category": "specific_dataflow_review",
+      "required_change": "Review another profile index shift by 10; dataflow must confirm ownership."
+    },
+    {
+      "address": "0x1e05d96",
+      "offset": 23670,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e05d9e",
+      "offset": 23678,
+      "bytes": "c27d",
+      "asm": "r2 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e05de4",
+      "offset": 23748,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e05e14",
+      "offset": 23796,
+      "bytes": "66fcdc00",
+      "asm": "r6 = r6 + 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e05e1e",
+      "offset": 23806,
+      "bytes": "83c2",
+      "asm": "r3 = r0 << 0xa",
+      "category": "specific_dataflow_review",
+      "required_change": "Profile macro selection: index*1024 -> index*1792."
+    },
+    {
+      "address": "0x1e05e2a",
+      "offset": 23818,
+      "bytes": "c0ff20310000",
+      "asm": "r0 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e05e6a",
+      "offset": 23882,
+      "bytes": "c5ff643d0000",
+      "asm": "r5 = 0x3d64",
+      "category": "config_tail_pointer",
+      "required_change": "Use relocated_base + 0x1544 or +0x1548."
+    },
+    {
+      "address": "0x1e06806",
+      "offset": 26342,
+      "bytes": "c0ff683d0000",
+      "asm": "r0 = 0x3d68",
+      "category": "config_tail_pointer",
+      "required_change": "Use relocated_base + 0x1544 or +0x1548."
+    },
+    {
+      "address": "0x1e06c66",
+      "offset": 27462,
+      "bytes": "01fb480c",
+      "asm": "r1 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e06c6a",
+      "offset": 27466,
+      "bytes": "c2ff20310000",
+      "asm": "r2 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e06fb6",
+      "offset": 28310,
+      "bytes": "0afb500c",
+      "asm": "r10 = 0xc50",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e06fba",
+      "offset": 28314,
+      "bytes": "c7ff20310000",
+      "asm": "r7 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e06fd4",
+      "offset": 28340,
+      "bytes": "40ec7780",
+      "asm": "if (r0 > 0xc4) goto 0xee",
+      "category": "specific_dataflow_review",
+      "required_change": "Save block loop extent: original object size/16 bound changes."
+    },
+    {
+      "address": "0x1e0709c",
+      "offset": 28540,
+      "bytes": "c7ff20310000",
+      "asm": "r7 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e088c6",
+      "offset": 34726,
+      "bytes": "c5ff20310000",
+      "asm": "r5 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e08926",
+      "offset": 34822,
+      "bytes": "00fb480c",
+      "asm": "r0 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e089da",
+      "offset": 35002,
+      "bytes": "00fb480c",
+      "asm": "r0 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e08f58",
+      "offset": 36408,
+      "bytes": "00fb480c",
+      "asm": "r0 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e091e8",
+      "offset": 37064,
+      "bytes": "b0c2",
+      "asm": "r0 = r6 << 0xa",
+      "category": "specific_dataflow_review",
+      "required_change": "Factory reset profile index: requires full loop rewrite/review."
+    },
+    {
+      "address": "0x1e09202",
+      "offset": 37090,
+      "bytes": "77fc0004",
+      "asm": "r7 = r7 + 0x400",
+      "category": "specific_dataflow_review",
+      "required_change": "Factory reset uses a hardcoded 0x400 increment; cannot mechanically replace without loop analysis."
+    },
+    {
+      "address": "0x1e09208",
+      "offset": 37096,
+      "bytes": "21ff107af4ff",
+      "asm": "if (r7 != 0x1000) goto -0x18",
+      "category": "specific_dataflow_review",
+      "required_change": "Factory reset uses a 0x1000 termination constant; review with profile and slot indices."
+    },
+    {
+      "address": "0x1e093b6",
+      "offset": 37526,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e093b8",
+      "offset": 37528,
+      "bytes": "c47d",
+      "asm": "r4 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0941c",
+      "offset": 37628,
+      "bytes": "c27d",
+      "asm": "r2 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e09472",
+      "offset": 37714,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e094ac",
+      "offset": 37772,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e09700",
+      "offset": 38368,
+      "bytes": "c5ff643d0000",
+      "asm": "r5 = 0x3d64",
+      "category": "config_tail_pointer",
+      "required_change": "Use relocated_base + 0x1544 or +0x1548."
+    },
+    {
+      "address": "0x1e09bfc",
+      "offset": 39644,
+      "bytes": "c4ff643d0000",
+      "asm": "r4 = 0x3d64",
+      "category": "config_tail_pointer",
+      "required_change": "Use relocated_base + 0x1544 or +0x1548."
+    },
+    {
+      "address": "0x1e09f36",
+      "offset": 40470,
+      "bytes": "22fcdc00",
+      "asm": "r2 = r2 + 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e09f3c",
+      "offset": 40476,
+      "bytes": "01ff7623f6ff",
+      "asm": "if (r2 != 0x376) goto -0x14",
+      "category": "specific_dataflow_review",
+      "required_change": "Macro-mask scan endpoint 6+4*220 -> 6+4*412 (0x676)."
+    },
+    {
+      "address": "0x1e0a7f8",
+      "offset": 42712,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0a836",
+      "offset": 42774,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0a89a",
+      "offset": 42874,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0a8f6",
+      "offset": 42966,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0a940",
+      "offset": 43040,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0a9d0",
+      "offset": 43184,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0aecc",
+      "offset": 44460,
+      "bytes": "c1ff20310000",
+      "asm": "r1 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e0b192",
+      "offset": 45170,
+      "bytes": "c5ff20310000",
+      "asm": "r5 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e0b1a8",
+      "offset": 45192,
+      "bytes": "00fb480c",
+      "asm": "r0 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e0b1b6",
+      "offset": 45206,
+      "bytes": "00fb480c",
+      "asm": "r0 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e0b1c6",
+      "offset": 45222,
+      "bytes": "00fb480c",
+      "asm": "r0 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e0b1e4",
+      "offset": 45252,
+      "bytes": "55fc440c",
+      "asm": "r5 = r5 + 0xc44",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e0b900",
+      "offset": 47072,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0ba8c",
+      "offset": 47468,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0ba94",
+      "offset": 47476,
+      "bytes": "c27d",
+      "asm": "r2 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0bada",
+      "offset": 47546,
+      "bytes": "86f9dc10",
+      "asm": "r6 = b[r1 ++= 0xdc] (u)",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0bb1c",
+      "offset": 47612,
+      "bytes": "c77d",
+      "asm": "r7 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0c344",
+      "offset": 49700,
+      "bytes": "c1ff20310000",
+      "asm": "r1 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e0c3c8",
+      "offset": 49832,
+      "bytes": "c0ff20310000",
+      "asm": "r0 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e0cd3e",
+      "offset": 52254,
+      "bytes": "00fb480c",
+      "asm": "r0 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e0cd42",
+      "offset": 52258,
+      "bytes": "c1ff20310000",
+      "asm": "r1 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e0cf32",
+      "offset": 52754,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0d59e",
+      "offset": 54398,
+      "bytes": "31e20330",
+      "asm": "if (r1 < 0x23) goto 0x6",
+      "category": "specific_dataflow_review",
+      "required_change": "Recorder count comparison: 35 -> 67."
+    },
+    {
+      "address": "0x1e0d5cc",
+      "offset": 54444,
+      "bytes": "c27d",
+      "asm": "r2 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0d5fa",
+      "offset": 54490,
+      "bytes": "c27d",
+      "asm": "r2 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0d626",
+      "offset": 54534,
+      "bytes": "21e22510",
+      "asm": "if (r1 != 0x22) goto 0x4a",
+      "category": "specific_dataflow_review",
+      "required_change": "Penultimate/full-slot path: 34 -> 66; preserve final-release handling."
+    },
+    {
+      "address": "0x1e0d648",
+      "offset": 54568,
+      "bytes": "c37d",
+      "asm": "r3 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0daf4",
+      "offset": 55764,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0db1a",
+      "offset": 55802,
+      "bytes": "3472",
+      "asm": "r4 = 0x23",
+      "category": "specific_dataflow_review",
+      "required_change": "Execution count clamp: 35 -> 67."
+    },
+    {
+      "address": "0x1e0db1c",
+      "offset": 55804,
+      "bytes": "71ed0180",
+      "asm": "if (r1 > 0xd7) goto 0x2",
+      "category": "specific_dataflow_review",
+      "required_change": "Execution byte threshold: 215 -> 407 (67*6+5)."
+    },
+    {
+      "address": "0x1e0db26",
+      "offset": 55814,
+      "bytes": "c07d",
+      "asm": "r0 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0db48",
+      "offset": 55848,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e240",
+      "offset": 57632,
+      "bytes": "c37d",
+      "asm": "r3 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e452",
+      "offset": 58162,
+      "bytes": "c27d",
+      "asm": "r2 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e4a6",
+      "offset": 58246,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e504",
+      "offset": 58340,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e584",
+      "offset": 58468,
+      "bytes": "c27d",
+      "asm": "r2 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e5aa",
+      "offset": 58506,
+      "bytes": "c37d",
+      "asm": "r3 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e5f2",
+      "offset": 58578,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e68a",
+      "offset": 58730,
+      "bytes": "c37d",
+      "asm": "r3 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e6cc",
+      "offset": 58796,
+      "bytes": "c27d",
+      "asm": "r2 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e736",
+      "offset": 58902,
+      "bytes": "c17d",
+      "asm": "r1 = 0xdc",
+      "category": "macro_stride_candidate",
+      "required_change": "Review use of 220; storage stride/capacity becomes 412. Not every literal is a stride."
+    },
+    {
+      "address": "0x1e0e9da",
+      "offset": 59578,
+      "bytes": "00fb480c",
+      "asm": "r0 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e0e9de",
+      "offset": 59582,
+      "bytes": "c1ff20310000",
+      "asm": "r1 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e0f376",
+      "offset": 62038,
+      "bytes": "caff20310000",
+      "asm": "r10 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e0f608",
+      "offset": 62696,
+      "bytes": "a0fc440c",
+      "asm": "r0 = r10 + 0xc44",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e168ee",
+      "offset": 92110,
+      "bytes": "cbff20310000",
+      "asm": "r11 = 0x3120",
+      "category": "config_base",
+      "required_change": "Replace with an allocated/verified relocated base; not a guessed SRAM address."
+    },
+    {
+      "address": "0x1e16918",
+      "offset": 92152,
+      "bytes": "02fb500c",
+      "asm": "r2 = 0xc50",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e16930",
+      "offset": 92176,
+      "bytes": "07fb500c",
+      "asm": "r7 = 0xc50",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    },
+    {
+      "address": "0x1e16936",
+      "offset": 92182,
+      "bytes": "40ec1480",
+      "asm": "if (r0 > 0xc4) goto 0x28",
+      "category": "specific_dataflow_review",
+      "required_change": "Load/CRC block loop extent: original object size/16 bound changes."
+    },
+    {
+      "address": "0x1e169ae",
+      "offset": 92302,
+      "bytes": "00fb480c",
+      "asm": "r0 = 0xc48",
+      "category": "whole_config_size_or_tail",
+      "required_change": "Object size 0xc50 -> 0x1550; tail offset 0xc44 -> 0x1544; mode byte 0xc48 -> 0x1548."
+    }
+  ],
+  "candidate_list_is_complete": false
+}

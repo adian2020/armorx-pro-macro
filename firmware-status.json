@@ -1,0 +1,18 @@
+{
+  "status": "not_integrated",
+  "target_complete_clicks": 32,
+  "target_records": 67,
+  "profiles": 3,
+  "macros_per_profile": 4,
+  "verified": {
+    "offline_storage_core": true,
+    "q32s_cross_compile": true,
+    "original_container_roundtrip": true,
+    "runtime_ram_allocation": false,
+    "complete_address_relocation": false,
+    "protocol_buffer_capacity": false,
+    "persistence_and_migration": false,
+    "all_flash_variants_repacked": false,
+    "on_device_recording_playback_restart": false
+  }
+}

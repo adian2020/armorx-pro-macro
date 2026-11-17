@@ -1,0 +1,13 @@
+/build/
+/original/
+/unpacked/
+/toolchain/
+/venv/
+__pycache__/
+*.pyc
+*.apk
+*.bup
+*.ufw
+*.exe
+*.dll
+*.o
