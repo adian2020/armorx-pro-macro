@@ -76,10 +76,10 @@ namespace ArmorXUsbReadOnly {
         [DllImport("hid.dll", SetLastError=true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool HidD_GetAttributes(SafeFileHandle handle, ref Attributes attrs);
-        [DllImport("hid.dll", CharSet=CharSet.Unicode)]
+        [DllImport("hid.dll", CharSet=CharSet.Unicode, ExactSpelling=true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool HidD_GetManufacturerString(SafeFileHandle h, StringBuilder b, int bytes);
-        [DllImport("hid.dll", CharSet=CharSet.Unicode)]
+        [DllImport("hid.dll", CharSet=CharSet.Unicode, ExactSpelling=true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool HidD_GetProductString(SafeFileHandle h, StringBuilder b, int bytes);
         [DllImport("hid.dll")]
@@ -170,7 +170,7 @@ $pnpStatus = 'OK'
 $usbDevices = @()
 try {
     $usbDevices = @(Get-CimInstance Win32_PnPEntity | Where-Object {
-        $_.PNPDeviceID -match '^(USB|HID)\\VID_[0-9A-F]{4}&PID_[0-9A-F]{4}'
+        $_.Present -eq $true -and $_.PNPDeviceID -match '^(USB|HID)\\VID_[0-9A-F]{4}&PID_[0-9A-F]{4}'
     } | ForEach-Object {
         $idMatch = [regex]::Match($_.PNPDeviceID, '(?i)VID_([0-9A-F]{4})&PID_([0-9A-F]{4})')
         $interfaceMatch = [regex]::Match($_.PNPDeviceID, '(?i)&MI_([0-9A-F]{2})')
